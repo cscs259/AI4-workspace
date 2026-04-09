@@ -16,21 +16,20 @@ import gdown
 
 class PensionData():
     def __init__(self, filepath):
-    # 인코딩 순서대로 시도
-    for encoding in ['cp949', 'euc-kr', 'utf-8', 'utf-8-sig']:
-        try:
-            self.df = pd.read_csv(os.path.join(filepath), encoding=encoding)
-            print(f'성공한 인코딩: {encoding}')
-            break
-        except (UnicodeDecodeError, Exception):
-            continue
-    else:
-        raise ValueError('지원하는 인코딩으로 파일을 읽을 수 없습니다.')
-    
-    self.pattern1 = '(\([^)]+\))'
-    self.pattern2 = '(\[[^)]+\])'
-    self.pattern3 = '[^A-Za-z0-9가-힣]'
-    self.preprocess()
+        for encoding in ['cp949', 'euc-kr', 'utf-8', 'utf-8-sig']:
+            try:
+                self.df = pd.read_csv(os.path.join(filepath), encoding=encoding)
+                print(f'성공한 인코딩: {encoding}')
+                break
+            except (UnicodeDecodeError, Exception):
+                continue
+        else:
+            raise ValueError('지원하는 인코딩으로 파일을 읽을 수 없습니다.')
+        
+        self.pattern1 = '(\([^)]+\))'
+        self.pattern2 = '(\[[^)]+\])'
+        self.pattern3 = '[^A-Za-z0-9가-힣]'
+        self.preprocess()
           
     def preprocess(self):
         self.df.columns = [
