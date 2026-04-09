@@ -81,7 +81,7 @@ class PensionData():
     def get_data(self):
         return self.df
 
-@ st.cache_data
+@st.cache_data
 def read_pensiondata():
     path = './data/national-pension.csv'
     if not os.path.exists(path):
@@ -89,6 +89,11 @@ def read_pensiondata():
         file_id = '1Ocfx6lqg0jITSYr_oLmxyMJX2gFWMNiC'
         with st.spinner('데이터 다운로드 중...'):
             gdown.download(f'https://drive.google.com/uc?id={file_id}', path, quiet=False)
+    
+    # ✅ 디버깅: 파일 내용 확인
+    with open(path, 'rb') as f:
+        st.code(f.read(500))  # 앞 500바이트 출력
+    
     return PensionData(path)
 
 data = read_pensiondata()
