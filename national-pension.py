@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 import streamlit as st
+import gdown
 
 # 한글 폰트 설정
 # plt.rcParams['font.family'] = "AppleGothic"
@@ -71,10 +72,15 @@ class PensionData():
     def get_data(self):
         return self.df
 
-@ st.cache_data     # 전처리했던 상태 유지 + 서비스만 새로고침
+@ st.cache_data
 def read_pensiondata():
-    data = PensionData('./data/national-pension.csv')
-    return data
+    path = './data/national-pension.csv'
+    if not os.path.exists(path):
+        os.makedirs('./data', exist_ok=True)
+        file_id = 'https://drive.google.com/file/d/1Ocfx6lqg0jITSYr_oLmxyMJX2gFWMNiC/view?usp=drive_link'
+        with st.spinner('데이터 다운로드 중...'):
+            gdown.download(f'https://drive.google.com/drive/folders/1fxSrj4eAFwfGPXqPQnuB5MVgnuP9si1V={file_id}', path, quiet=False)
+    return PensionData(path)
 
 data = read_pensiondata()
 company_name = st.text_input('회사명을 입력해 주세요', placeholder='검색할 회사명 입력')
