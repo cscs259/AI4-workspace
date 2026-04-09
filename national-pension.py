@@ -79,7 +79,7 @@ def read_pensiondata():
         os.makedirs('./data', exist_ok=True)
         file_id = '1Ocfx6lqg0jITSYr_oLmxyMJX2gFWMNiC'
         with st.spinner('데이터 다운로드 중...'):
-            gdown.download(f'https://drive.google.com/drive/folders/1fxSrj4eAFwfGPXqPQnuB5MVgnuP9si1V={file_id}', path, quiet=False)
+            gdown.download(f'https://drive.google.com/uc?id={file_id}', path, quiet=False)
     return PensionData(path)
 
 data = read_pensiondata()
